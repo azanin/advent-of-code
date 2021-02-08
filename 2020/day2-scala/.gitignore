@@ -1,10 +1,10 @@
- target/
- .idea/
- # vim
- *.sw?
+target/
+.idea/
+# vim
+*.sw?
 
- # Ignore [ce]tags files
- tags
+# Ignore [ce]tags files
+tags
 
- .bloop
- .metals
+.bloop
+.metals
