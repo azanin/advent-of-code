@@ -20,7 +20,7 @@ object Day3 {
   }
 
   def count(map: Map, position: Position) = {
-    map(position.columnIndex)(position.rowIndex) match {
+    map(position.columnIndex)(position.rowIndex) match {m
       case Tree() => BigInt(1)
       case Free() => BigInt(0)
     }
