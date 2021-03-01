@@ -6,6 +6,9 @@ object PassportChecker {
 
   def run() = {
     val input: List[String] = Source.fromFile("input.txt").getLines().toList
-    Passport.parse(input).map(Passport.parse).count(Passport.isValid)
+    (
+      Passport.parse(input).map(Passport.parse).count(Passport.isValid),
+      Passport.parse(input).map(Passport.parse).count(Passport.isValid2)
+    )
   }
 }

@@ -20,8 +20,26 @@ object Passport {
       })
       .toMap
 
-  val requiredFiels = List("ecl", "pid", "eyr", "hcl", "byr", "iyr", "hgt")
+  val requiredFiels: Map[String, String => Boolean] = Map(
+    "byr" -> { s => (1920 to 2002).contains(s.toInt) },
+    "iyr" -> { s => (2010 to 2020).contains(s.toInt) },
+    "eyr" -> { s => (2020 to 2030).contains(s.toInt) },
+    "hgt" -> {
+      case s"""${height}cm""" => (150 to 193).contains(height.toInt)
+      case s"""${height}in""" => (59 to 76).contains(height.toInt)
+      case _                  => false
+    },
+    "hcl" -> { s =>
+      s.startsWith("#") && s.length == 7 && s.tail.forall(c => (('a' to 'f') ++ ('0' to '9')).contains(c))
+    },
+    "ecl" -> { s => List("amb", "blu", "brn", "gry", "grn", "hzl", "oth").contains(s) },
+    "pid" -> { s => s.forall(_.isDigit) && s.length == 9 }
+  )
 
-  def isValid(fields: Map[String, String]): Boolean = requiredFiels.forall(fields.contains)
+  def isValid(fields: Map[String, String]): Boolean = requiredFiels.keySet.forall(fields.contains)
+
+  def isValid2(fields: Map[String, String]): Boolean = requiredFiels.forall { case (key, predicate) =>
+    fields.get(key).exists(predicate)
+  }
 
 }
